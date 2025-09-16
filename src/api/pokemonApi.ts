@@ -1,4 +1,5 @@
 import type { Pokemon } from "@/types/pokemon";
+
 export async function fetchPokemon(name: string): Promise<Pokemon> {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
   if (!res.ok) throw new Error("Not found");
@@ -8,7 +9,7 @@ export async function fetchPokemon(name: string): Promise<Pokemon> {
     id: data.id,
     name: data.name,
     image: data.sprites.other["official-artwork"].front_default,
-    types: data.types.map((t: any) => t.type.name),
+    types: data.types.map((t: { type: { name: string } }) => t.type.name),
     baseExperience: data.base_experience,
     stats: {
       hp: data.stats[0].base_stat,
